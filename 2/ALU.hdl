@@ -69,9 +69,10 @@ CHIP ALU {
     And16(a=noout, b=noout, out=out);
     
     And16(a=noout, b=noout, out[0]=noout0, out[1]=noout1, out[2]=noout2, out[3]=noout3, out[4]=noout4, out[5]=noout5, out[6]=noout6, out[7]=noout7, out[8]=noout8, out[9]=noout9, out[10]=noout10, out[11]=noout11, out[12]=noout12, out[13]=noout13, out[14]=noout14, out[15]=noout15);
-    Or8Way(in[0]=noout0, in[1]=noout2, in[2]=noout2, in[3]=noout3, in[4]=noout4, in[5]=noout5, in[6]=noout6, in[7]=noout7, out=ornoout01234567);
+    Or8Way(in[0]=noout0, in[1]=noout1, in[2]=noout2, in[3]=noout3, in[4]=noout4, in[5]=noout5, in[6]=noout6, in[7]=noout7, out=ornoout01234567);
     Or8Way(in[0]=noout8, in[1]=noout9, in[2]=noout10, in[3]=noout11, in[4]=noout12, in[5]=noout13, in[6]=noout14, in[7]=noout15, out=ornoout8910112131415);
     Or(a=ornoout01234567, b=ornoout8910112131415, out=ornout);
     Not(in=ornout, out=zr);
 
+    And(a=noout15, b=noout15, out=ng);
 }
