@@ -58,7 +58,8 @@ CHIP CPU {
     DMux8Way(in=true, sel=instruction[0..2], a=ifnull, b=ifjgt, c=ifjeq, d=ifjge, e=ifjlt, f=ifjne, g=ifjle, h=ifjmp);
 
     // 0より大きい→0ではないかつpos
-    And(a=pos, b=ifjgt, out=isjgt);
+    And(a=pos, b=notzr, out=posnotzr);
+    And(a=posnotzr, b=ifjgt, out=isjgt);
 
     // 0である→zr
     And(a=ifjeq, b=zr, out=isjeq);
@@ -71,18 +72,17 @@ CHIP CPU {
     And(a=ng, b=ifjlt, out=isjlt);
 
     // 0ではない→notzrかつ(ngまたはpos)
-    Or(a=ng, b=pos, out=ngorpos);
-    And(a=notzr, b=ngorpos, out=notzrandngorpos);
-    And(a=notzrandngorpos, b=ifjne, out=isjne);
+    And(a=notzr, b=ifjne, out=isjne);
 
     // 0以下→zrまたはng
     Or(a=zr, b=ng, out=zrorng);
-    And(a=zrorng, b=zrorng, out=isjle);
+    And(a=zrorng, b=ifjle, out=isjle);
 
-    Or8Way(in[0]=false, in[1]=isjgt, in[2]=isjeq, in[3]=isjge, in[4]=isjlt, in[5]=isjne, in[6]=isjle, in[7]=true, out=or8wayout);
+    And(a=instruction[0], b=instruction[1], out=ins01);
+    And(a=ins01, b=instruction[2], out=ins012);
+
+    Or8Way(in[0]=false, in[1]=isjgt, in[2]=isjeq, in[3]=isjge, in[4]=isjlt, in[5]=isjne, in[6]=isjle, in[7]=ins012, out=or8wayout);
     And(a=or8wayout, b=instruction[15], out=jump);
-
-
 
     PC(in=arout, inc=true, load=jump, reset=reset, out[0..14]=pc, out[15]=residual2);
 }
