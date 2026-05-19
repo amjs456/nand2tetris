@@ -50,6 +50,10 @@ JUMP_BIN_CODES = {
 
 class Code:
     def dest(self, d):
+        if not d=="null":
+            sorted_num = sorted([ord(a) for a in d])
+            sorted_d = [chr(d_item) for d_item in sorted_num]
+            d = "".join(sorted_d)
         if d in DEST_BIN_CODES:
             return DEST_BIN_CODES[d]
         else:

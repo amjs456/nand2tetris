@@ -66,8 +66,11 @@ class Parser:
             if "=" in self.lines[self.index]:
                 c = self.lines[self.index].split("=")[1]
                 return c
-            else:
-                return None
+            elif ";" in self.lines[self.index]:
+                c = self.lines[self.index].split(";")[0]
+                return c
+            if(self.lines[self.index]=="MD=M+1"):
+                print(c)
         else:
             return None
 
